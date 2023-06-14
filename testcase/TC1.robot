@@ -1,50 +1,44 @@
 *** Settings ***
-Library  Browser
-Suite Setup    New Browser    browser=${browser}    headless=${HEADLESS}
-Test Setup    New Context
-Test Teardown    Close Context
-Suite Teardown    Close Browser
-
-*** Variables ***
-${browser}  chromium
-${url}  http://localhost:4200/vn/auth/login
-${HEADLESS}    True
+Resource               ../keywords/common.robot
+Test Setup             Setup
+Test Teardown          Tear Down
 
 *** Test Cases ***
 SI-01 Verify that login successfully with valid Email and Password
-    befor
-    Fill Text  id=username    admin@gmail.com
-    Fill Text  id=password     123123
-    submit
+    [Tags]             smoketest
+    Enter "text" in "Email" with "admin@gmail.com"
+    Enter "text" in "Mật khẩu" with "123123"
+    Click "Đăng nhập" button
+    User look message "Success" popup
 
 SI-02 Verify that Login unsuccessfully with invalid Email
-    befor
-    Fill Text  id=username    adminnn@gmail.com
-    Fill Text  id=password     123123
-    submit
+    [Tags]             smoketest
+    Enter "text" in "Email" with "adminnn@gmail.com"
+    Enter "text" in "Mật khẩu" with "123123"
+    Click "Đăng nhập" button
+    User look message "Tài khoản adminnn@gmail.com không tồn tại trong hệ thống. Vui lòng đăng ký mới." popup
 
 SI-03 Verify that Login unsuccessfully with invalid Password
-    befor
-    Fill Text  id=username    admin@gmail.com
-    Fill Text  id=password     12341234
-    submit
+    [Tags]             smoketest
+    Enter "text" in "Email" with "admin@gmail.com"
+    Enter "text" in "Mật khẩu" with "12341234"
+    Click "Đăng nhập" button
+    User look message "Sai mật khẩu cho tài khoản admin@gmail.com" popup
 
 SI-04 Verify that Login unsuccessfully because no enter Email and Password
-    befor
-    submit
+    [Tags]             smoketest
+    Click "Đăng nhập" button
+    Required message "Email" displayed under "Xin vui lòng nhập email" field
+    Required message "Mật khẩu" displayed under "Xin vui lòng nhập mật khẩu" field
 
 SI-05 Verify that Login unsuccessfully because no enter Email
-    befor
-    Fill Text  id=password     123123
-    submit
+    [Tags]             smoketest
+    Enter "text" in "Mật khẩu" with "123123"
+    Click "Đăng nhập" button
+    Required message "Email" displayed under "Xin vui lòng nhập email" field
 
 SI-06 Verify that Login unsuccessfully because no enter Password
-    befor
-    Fill Text  id=username    admin@gmail.com
-    submit
-*** Keywords ***
-befor
-    New Page    ${url}
-submit
-    Click   id=button-submit
-    close browser
+    [Tags]             smoketest
+    Enter "text" in "Email" with "admin@gmail.com"
+    Click "Đăng nhập" button
+    Required message "Mật khẩu" displayed under "Xin vui lòng nhập mật khẩu" field
