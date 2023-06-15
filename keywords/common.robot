@@ -94,7 +94,7 @@ User look message "${message}" popup
     ${contains}=  Get Regexp Matches       ${message}       _@(.+)@_           1
     ${cnt}=    Get length    ${contains}
     IF  ${cnt} > 0
-        ${message}=  Replace String       ${message}       _@${contains[0]}@_           ${STATE["${name}"]}
+        ${message}=  Replace String       ${message}       _@${contains[0]}@_           ${STATE["${contains[0]}"]}
     END
     Element Text Should Be          id=swal2-html-container     ${message}
     ${element}  Set Variable    xpath=//*[contains(@class, "swal2-confirm" and not(contains(@style,'display:none')))]
