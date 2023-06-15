@@ -1,6 +1,7 @@
 *** Settings ***
 Library    Browser
 Library    FakerLibrary
+Library    String
 
 *** Variables ***
 ${BROWSER}             chromium
@@ -90,9 +91,13 @@ Click "${text}" sub menu to "${url}"
     Log     ${curent_url}
     Should Be Equal    ${curent_url}    ${URL_DEFAULT}${url}
 User look message "${message}" popup
-#   verifyMessageSwal2
+    ${contains}=  Get Regexp Matches       ${message}       _@(.+)@_           1
+    ${cnt}=    Get length    ${contains}
+    IF  ${cnt} > 0
+        ${message}=  Replace String       ${message}       _@${contains[0]}@_           ${STATE["${name}"]}
+    END
     Element Text Should Be          id=swal2-html-container     ${message}
-    ${element}  Set Variable    xpath=//*[contains(@class, "swal2-confirm")]
+    ${element}  Set Variable    xpath=//*[contains(@class, "swal2-confirm" and not(contains(@style,'display:none')))]
     ${count}=    Get Element Count         ${element}
     Log    ${count}
     IF    ${count} > 0
