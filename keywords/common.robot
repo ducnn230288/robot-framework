@@ -71,8 +71,6 @@ Enter "${type}" in "${name}" with "${text}"
     ${text}=        Get Random Text                 ${type}     ${text}
     ${element}=     Get Element Form Item By Name   ${name}     input
     Fill Text                                       ${element}  ${text}
-    ${tex1t}=    FakerLibrary.Date  	pattern=%d-%m-%Y
-    Log     ${tex1t}
     Set Global Variable                             ${STATE["${name}"]}    ${text}
 Enter "${type}" in textarea "${name}" with "${text}"
     ${text}=        Get Random Text                 ${type}     ${text}
@@ -83,11 +81,14 @@ Enter "${type}" in textarea "${name}" with "${text}"
 
 Click "${text}" button
     Click   xpath=//button[@title = "${text}"]
+#    clickSubmitPopover
 Click "${text}" menu
     Click   xpath=//li[contains(@class, "menu") and descendant::span[contains(text(), "${text}")]]
 Click "${text}" sub menu to "${url}"
     Click   xpath=//a[contains(@class, "sub-menu") and descendant::span[contains(text(), "${text}")]]
+#   cy.url().should('include', url);
 User look message "${message}" popup
+#   verifyMessageSwal2
     Element Text Should Be          id=swal2-html-container     ${message}
 
 ###  -----  Table  -----  ###
@@ -97,4 +98,5 @@ Get Element Table Item By Name
 Click on the "${text}" button in the "${name}" item line
     ${element}=     Get Element Table Item By Name  ${STATE["${name}"]}     button[@title = "${text}"]
     Click   ${element}
+#    clickSubmitPopover
     Click   xpath=//*[contains(@class, "ant-popover")]//*[contains(@class, "ant-btn-primary")]
