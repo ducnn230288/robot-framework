@@ -7,7 +7,7 @@ ${BROWSER}             chromium
 ${HEADLESS}    false
 ${BROWSER_TIMEOUT}     60 seconds
 
-${URL}  http://localhost:4200/vn/auth/login
+${URL_DEFAULT}  http://localhost:4200/vn
 ${STATE}       Evaluate  json.loads('''{}''')  json
 
 *** Keywords ***
@@ -15,7 +15,7 @@ ${STATE}       Evaluate  json.loads('''{}''')  json
 Setup
     Set Browser Timeout         ${BROWSER_TIMEOUT}
     New Browser                 ${BROWSER}  headless=${HEADLESS}
-    New Page                    ${URL}
+    New Page                    ${URL_DEFAULT}
 Tear Down
     Close Browser               ALL
 
@@ -81,15 +81,30 @@ Enter "${type}" in textarea "${name}" with "${text}"
 
 Click "${text}" button
     Click   xpath=//button[@title = "${text}"]
-#    clickSubmitPopover
+    Click Confirm To Action
 Click "${text}" menu
     Click   xpath=//li[contains(@class, "menu") and descendant::span[contains(text(), "${text}")]]
 Click "${text}" sub menu to "${url}"
     Click   xpath=//a[contains(@class, "sub-menu") and descendant::span[contains(text(), "${text}")]]
-#   cy.url().should('include', url);
+    ${curent_url}=  Get Url
+    Log     ${curent_url}
+    Should Be Equal    ${curent_url}    ${URL_DEFAULT}${url}
 User look message "${message}" popup
 #   verifyMessageSwal2
     Element Text Should Be          id=swal2-html-container     ${message}
+    ${element}  Set Variable    xpath=//*[contains(@class, "swal2-confirm")]
+    ${count}=    Get Element Count         ${element}
+    Log    ${count}
+    IF    ${count} > 0
+        Click   ${element}
+    END
+Click Confirm To Action
+    ${element}  Set Variable    xpath=//*[contains(@class, "ant-popover")]//*[contains(@class, "ant-btn-primary")]
+    ${count}=    Get Element Count         ${element}
+    Log    ${count}
+    IF    ${count} > 0
+        Click   ${element}
+    END
 
 ###  -----  Table  -----  ###
 Get Element Table Item By Name
@@ -98,5 +113,4 @@ Get Element Table Item By Name
 Click on the "${text}" button in the "${name}" item line
     ${element}=     Get Element Table Item By Name  ${STATE["${name}"]}     button[@title = "${text}"]
     Click   ${element}
-#    clickSubmitPopover
-    Click   xpath=//*[contains(@class, "ant-popover")]//*[contains(@class, "ant-btn-primary")]
+    Click Confirm To Action

@@ -4,19 +4,19 @@ Test Setup             Setup
 Test Teardown          Tear Down
 
 *** Test Cases ***
-SI-01 Verify that login successfully with valid Email and Password
-    [Tags]             smoketest
-    Enter "text" in "Email" with "admin@gmail.com"
-    Enter "text" in "Mật khẩu" with "123123"
-    Click "Đăng nhập" button
-    User look message "Success" popup
-
-#SI-02 Verify that Login unsuccessfully with invalid Email
+#SI-01 Verify that login successfully with valid Email and Password
 #    [Tags]             smoketest
-#    Enter "text" in "Email" with "adminnn@gmail.com"
+#    Enter "text" in "Email" with "admin@gmail.com"
 #    Enter "text" in "Mật khẩu" with "123123"
 #    Click "Đăng nhập" button
-#    User look message "Tài khoản adminnn@gmail.com không tồn tại trong hệ thống. Vui lòng đăng ký mới." popup
+#    User look message "Success" popup
+
+SI-02 Verify that Login unsuccessfully with invalid Email
+    [Tags]             smoketest
+    Enter "text" in "Email" with "adminnn@gmail.com"
+    Enter "text" in "Mật khẩu" with "123123"
+    Click "Đăng nhập" button
+    User look message "Tài khoản _@Email@_ không tồn tại trong hệ thống. Vui lòng đăng ký mới." popup
 #
 #SI-03 Verify that Login unsuccessfully with invalid Password
 #    [Tags]             smoketest
