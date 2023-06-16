@@ -6,39 +6,36 @@ Test Teardown          Tear Down
 *** Test Cases ***
 SI-01 Verify that login successfully with valid Email and Password
     [Tags]             smoketest
-    Enter "text" in "Email" with "admin@gmail.com"
-    Enter "text" in "Mật khẩu" with "123123"
-    Click "Đăng nhập" button
-    User look message "Success" popup
+    Then Login to admin
 
 SI-02 Verify that Login unsuccessfully with invalid Email
     [Tags]             smoketest
-    Enter "text" in "Email" with "adminnn@gmail.com"
-    Enter "text" in "Mật khẩu" with "123123"
-    Click "Đăng nhập" button
-    User look message "Tài khoản _@Email@_ không tồn tại trong hệ thống. Vui lòng đăng ký mới." popup
+    When Enter "text" in "Email" with "_RANDOM_"
+    When Enter "text" in "Mật khẩu" with "123123"
+    When Click "Đăng nhập" button
+    Then User look message "Tài khoản _@Email@_ không tồn tại trong hệ thống. Vui lòng đăng ký mới." popup
 
 SI-03 Verify that Login unsuccessfully with invalid Password
     [Tags]             smoketest
-    Enter "text" in "Email" with "admin@gmail.com"
-    Enter "text" in "Mật khẩu" with "12341234"
-    Click "Đăng nhập" button
-    User look message "Sai mật khẩu cho tài khoản admin@gmail.com" popup
+    When Enter "text" in "Email" with "admin@gmail.com"
+    When Enter "text" in "Mật khẩu" with "_RANDOM_"
+    When Click "Đăng nhập" button
+    Then User look message "Sai mật khẩu cho tài khoản _@Email@_" popup
 
 SI-04 Verify that Login unsuccessfully because no enter Email and Password
     [Tags]             smoketest
-    Click "Đăng nhập" button
-    Required message "Email" displayed under "Xin vui lòng nhập email" field
-    Required message "Mật khẩu" displayed under "Xin vui lòng nhập mật khẩu" field
+    When Click "Đăng nhập" button
+    Then Required message "Email" displayed under "Xin vui lòng nhập email" field
+    Then Required message "Mật khẩu" displayed under "Xin vui lòng nhập mật khẩu" field
 
 SI-05 Verify that Login unsuccessfully because no enter Email
     [Tags]             smoketest
-    Enter "text" in "Mật khẩu" with "123123"
-    Click "Đăng nhập" button
-    Required message "Email" displayed under "Xin vui lòng nhập email" field
+    When Enter "text" in "Mật khẩu" with "123123"
+    When Click "Đăng nhập" button
+    Then Required message "Email" displayed under "Xin vui lòng nhập email" field
 
 SI-06 Verify that Login unsuccessfully because no enter Password
     [Tags]             smoketest
-    Enter "text" in "Email" with "admin@gmail.com"
-    Click "Đăng nhập" button
-    Required message "Mật khẩu" displayed under "Xin vui lòng nhập mật khẩu" field
+    When Enter "text" in "Email" with "admin@gmail.com"
+    When Click "Đăng nhập" button
+    Then Required message "Mật khẩu" displayed under "Xin vui lòng nhập mật khẩu" field
