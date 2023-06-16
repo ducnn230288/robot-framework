@@ -7,6 +7,7 @@ Library             String
 ${BROWSER}          chromium
 ${HEADLESS}         false
 ${BROWSER_TIMEOUT}  50 seconds
+${SHOULD_TIMEOUT}   0.1 seconds
 
 ${URL_DEFAULT}      http://localhost:4200/vn
 ${STATE}            Evaluate  json.loads('''{}''')  json
@@ -36,8 +37,12 @@ Wait Until Element Is Not Exist
     [Arguments]                 ${locator}    ${message}=${EMPTY}    ${timeout}=${BROWSER_TIMEOUT}
     Wait For Elements State     ${locator}    detached    ${timeout}    ${message}
 
+Element Should Be Exist
+    [Arguments]                 ${locator}    ${message}=${EMPTY}    ${timeout}=${SHOULD_TIMEOUT}
+    Wait For Elements State     ${locator}    attached    ${timeout}    ${message}
+
 Element Should Be Visible
-    [Arguments]                 ${locator}    ${message}=${EMPTY}    ${timeout}=0:00:05
+    [Arguments]                 ${locator}    ${message}=${EMPTY}    ${timeout}=${SHOULD_TIMEOUT}
     Wait For Elements State     ${locator}    visible    ${timeout}    ${message}
 
 Element Text Should Be
@@ -45,7 +50,7 @@ Element Text Should Be
     Get Text                    ${locator}    equal    ${expected}    ${message}
 
 Element Should Not Be Visible
-    [Arguments]                 ${locator}    ${message}=${EMPTY}    ${timeout}=0:00:05
+    [Arguments]                 ${locator}    ${message}=${EMPTY}    ${timeout}=${SHOULD_TIMEOUT}
     Wait For Elements State     ${locator}    hidden    ${timeout}    ${message}
 
 
@@ -61,6 +66,8 @@ Get Random Text
     ${cnt}=             Get length                  ${contains}
     IF  ${cntS} > 0
         ${new_text}=    Set Variable                ${STATE["${containsS[0]}"]}
+        ${symbol}=      Set Variable                _@${containsS[0]}@_
+        Log    ${new_text} ${symbol}
     ELSE IF  ${cnt} > 0 and '${type}' == 'test name'
         ${random}=      FakerLibrary.Sentence       nb_words=3
         ${words}=       Split String                ${TEST NAME}    ${SPACE}
@@ -86,8 +93,10 @@ Get Random Text
     END
 
     ${cnt}=             Get Length                  ${text}
+    Log    ${cnt} ${text}
     IF  ${cnt} > 0
         ${text}=        Replace String              ${text}         ${symbol}     ${new_text}
+        Log    ${text}
     END
     [Return]    ${text}
 Get Element Form Item By Name
@@ -138,9 +147,10 @@ User look message "${message}" popup
         ${message}=  Replace String     ${message}      _@${contains[0]}@_  ${STATE["${contains[0]}"]}
     END
     Element Text Should Be          id=swal2-html-container     ${message}
-    ${element}  Set Variable        xpath=//*[contains(@class, "swal2-confirm" and not(contains(@style,'display:none')))]
-    ${count}=   Get Element Count  ${element}
-    IF    ${count} > 0
+    ${element}=  Set Variable        xpath=//*[contains(@class, "swal2-confirm")]
+    ${passed}    Run Keyword And Return Status
+                 ...    Element Should Be Visible        ${element}
+    IF    '${passed}' == 'True'
         Click   ${element}
     END
 Click Confirm To Action
