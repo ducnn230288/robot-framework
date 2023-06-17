@@ -1,7 +1,7 @@
 *** Settings ***
 Resource               ../keywords/common.robot
 Test Setup             Setup
-Test Teardown          Tear Down
+#Test Teardown          Tear Down
 
 *** Test Cases ***
 CA_PO_01 Verify when Create menu successfully
@@ -84,15 +84,15 @@ CA_PO_09 Verify when Create Categories unsuccessfully when "Tiêu đề" already
 
 *** Keywords ***
 Go to page create category post
-    Login to admin
-    Click "QUẢN LÝ DANH MỤC" menu
-    Click "Post" sub menu to "/post"
-    Click "Tạo mới" button
+    When Login to admin
+    When Click "QUẢN LÝ DANH MỤC" menu
+    When Click "Post" sub menu to "/post"
+    When Click "Tạo mới" button
 
 Background Happy paths
-    Go to page create category post
-    Enter "test name" in "Tiêu đề" with "_RANDOM_"
-    Enter "text" in "Slug" with "_RANDOM_"
-    Enter "paragraph" in textarea "Giới thiệu" with "_RANDOM_"
-    Click "Lưu lại" button
-    User look message "Thêm mới danh mục bài viết thành công" popup
+    When Go to page create category post
+    When Enter "test name" in "Tiêu đề" with "_RANDOM_"
+    When Enter "text" in "Slug" with "_RANDOM_"
+    When Enter "paragraph" in textarea "Giới thiệu" with "_RANDOM_"
+    When Click "Lưu lại" button
+    Then User look message "Thêm mới danh mục bài viết thành công" popup

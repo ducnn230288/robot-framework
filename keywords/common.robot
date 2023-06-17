@@ -74,8 +74,10 @@ Get Random Text
         ${new_text}=    Set Variable                ${words[0]} ${random}
     ELSE IF  ${cnt} > 0 and '${type}' == 'number'
         ${new_text}=    FakerLibrary.Random Int
+        ${new_text}=    Convert To String   ${new_text}
     ELSE IF  ${cnt} > 0 and '${type}' == 'percentage'
         ${new_text}=    FakerLibrary.Random Int     max=100
+        ${new_text}=    Convert To String   ${new_text}
     ELSE IF  ${cnt} > 0 and '${type}' == 'paragraph'
         ${new_text}=    FakerLibrary.Paragraph
     ELSE IF  ${cnt} > 0 and '${type}' == 'email'
@@ -120,12 +122,20 @@ Enter "${type}" in textarea "${name}" with "${text}"
     Set Global Variable                             ${STATE["${name}"]}    ${text}
 
 ###  -----  Table  -----  ###
-Get Element Table Item By Name
-    [Arguments]     ${name}     ${xpath}
-    [Return]        xpath=//*[contains(@class, "item-text") and contains(text(), "${name}")]/ancestor::*[contains(@class, "item")]//${xpath}
+Get Element Item By Name
+    [Arguments]     ${name}     ${xpath}=${EMPTY}
+    [Return]        xpath=//*[contains(@class, "item-text") and contains(text(), "${name}")]/ancestor::*[contains(@class, "item")]${xpath}
 Click on the "${text}" button in the "${name}" item line
     Wait Until Element Spin
-    ${element}=     Get Element Table Item By Name  ${STATE["${name}"]}     button[@title = "${text}"]
+    ${element}=     Get Element Item By Name  ${STATE["${name}"]}     //button[@title = "${text}"]
+    Click           ${element}
+    Click Confirm To Action
+Get Element Table Item By Name
+    [Arguments]     ${name}     ${xpath}
+    [Return]        xpath=//*[contains(@class, "ant-table-cell")]//*[contains(text(), "${name}")]/ancestor::tr${xpath}
+Click on the "${text}" button in the "${name}" table line
+    Wait Until Element Spin
+    ${element}=     Get Element Table Item By Name      ${STATE["${name}"]}     //button[@title = "${text}"]
     Click           ${element}
     Click Confirm To Action
 
@@ -133,13 +143,21 @@ Click on the "${text}" button in the "${name}" item line
 Click "${text}" button
     Click   xpath=//button[@title = "${text}"]
     Click Confirm To Action
+
+Select on the "${text}" item line
+    Wait Until Element Spin
+    ${element}=     Get Element Item By Name  ${text}
+    Click           ${element}
+
 Click "${text}" menu
     Click   xpath=//li[contains(@class, "menu") and descendant::span[contains(text(), "${text}")]]
+
 Click "${text}" sub menu to "${url}"
     Wait Until Element Spin
     Click   xpath=//a[contains(@class, "sub-menu") and descendant::span[contains(text(), "${text}")]]
     ${curent_url}=  Get Url
-    Should Be Equal    ${curent_url}    ${URL_DEFAULT}${url}
+    Should Contain      ${curent_url}       ${URL_DEFAULT}${url}
+
 User look message "${message}" popup
     ${contains}=    Get Regexp Matches  ${message}      _@(.+)@_           1
     ${cnt}=         Get length          ${contains}

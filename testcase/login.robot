@@ -1,7 +1,7 @@
 *** Settings ***
 Resource               ../keywords/common.robot
 Test Setup             Setup
-Test Teardown          Tear Down
+#Test Teardown          Tear Down
 
 *** Test Cases ***
 SI-01 Verify that login successfully with valid Email and Password
