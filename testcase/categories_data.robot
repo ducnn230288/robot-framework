@@ -14,6 +14,7 @@ CA-DA-02 Verify that "Sửa" successfully
     [Tags]             smoketest
     When Background Happy paths
     When Click on the "Sửa" button in the "Tên loại" item line
+    When Wait Until Element Spin
     When Enter "test name" in "Tên loại" with "_RANDOM_"
     When Enter "number" in "Mã" with "_RANDOM_"
     When Click "Lưu lại" button
