@@ -172,6 +172,7 @@ Background ${type} Happy paths ${name} with ${url}
 
 Verify when Create menu successfully
     [Arguments]     ${code}     ${name}     ${url}      ${type}
+    Set Global Variable     ${TEST NAME}    ${code}
     When Background ${type} Happy paths ${name} with ${url}
     Then User look message "Tạo tài khoản thành công" popup
     When Click on the "Xóa" button in the "Họ và tên" table line
@@ -179,6 +180,7 @@ Verify when Create menu successfully
 
 Verify when Edit menu successfully
     [Arguments]     ${code}     ${name}     ${url}      ${type}
+    Set Global Variable     ${TEST NAME}    ${code}
     When Background ${type} Happy paths ${name} with ${url}
     Then User look message "Tạo tài khoản thành công" popup
     When Click on the "Sửa" button in the "Họ và tên" table line
@@ -193,6 +195,7 @@ Verify when Edit menu successfully
 
 Verify success when Change password
     [Arguments]     ${code}     ${name}     ${url}      ${type}
+    Set Global Variable     ${TEST NAME}    ${code}
     When Background ${type} Happy paths ${name} with ${url}
     Then User look message "Tạo tài khoản thành công" popup
     When Click on the "Đổi mật khẩu" button in the "Họ và tên" table line
@@ -205,6 +208,7 @@ Verify success when Change password
 
 Verify when delete Account successful
     [Arguments]     ${code}     ${name}     ${url}      ${type}
+    Set Global Variable     ${TEST NAME}    ${code}
     When Background ${type} Happy paths ${name} with ${url}
     Then User look message "Tạo tài khoản thành công" popup
     When Click on the "Xóa" button in the "Họ và tên" table line
@@ -212,6 +216,7 @@ Verify when delete Account successful
 
 Verify when lock Account successful
     [Arguments]     ${code}     ${name}     ${url}      ${type}
+    Set Global Variable     ${TEST NAME}    ${code}
     When Background ${type} Happy paths ${name} with ${url}
     Then User look message "Tạo tài khoản thành công" popup
     When Click on the "Chi tiết" button in the "Họ và tên" table line
@@ -223,6 +228,7 @@ Verify when lock Account successful
 
 Verify when unlock Account successful
     [Arguments]     ${code}     ${name}     ${url}      ${type}
+    Set Global Variable     ${TEST NAME}    ${code}
     When Background ${type} Happy paths ${name} with ${url}
     Then User look message "Tạo tài khoản thành công" popup
     When Click on the "Chi tiết" button in the "Họ và tên" table line
@@ -237,6 +243,7 @@ Verify when unlock Account successful
 ###  -----  Bad paths  -----  ###
 Verify when Create menu unsuccessfully when leaving Họ và tên fields blank
     [Arguments]     ${code}     ${name}     ${url}      ${type}
+    Set Global Variable     ${TEST NAME}    ${code}
     When Go to page create account ${name} with ${url}
     When Enter "email" in "Email" with "_RANDOM_"
     When Enter "phone" in "Số điện thoại" with "_RANDOM_"
@@ -250,6 +257,7 @@ Verify when Create menu unsuccessfully when leaving Họ và tên fields blank
 
 Verify when Create menu unsuccessfully when leaving Email fields blank
     [Arguments]     ${code}     ${name}     ${url}      ${type}
+    Set Global Variable     ${TEST NAME}    ${code}
     When Go to page create account ${name} with ${url}
     When Enter "test name" in "Họ và tên" with "_RANDOM_"
     When Enter "phone" in "Số điện thoại" with "_RANDOM_"
@@ -263,6 +271,7 @@ Verify when Create menu unsuccessfully when leaving Email fields blank
 
 Verify when create Customer Account unsuccessful because entered invalid email in Email field
     [Arguments]     ${code}     ${name}     ${url}      ${type}
+    Set Global Variable     ${TEST NAME}    ${code}
     When Go to page create account ${name} with ${url}
     When Enter "test name" in "Họ và tên" with "_RANDOM_"
     When Enter "text" in "Email" with "_RANDOM_"
@@ -277,6 +286,7 @@ Verify when create Customer Account unsuccessful because entered invalid email i
 
 Verify when Create menu unsuccessfully when leaving Số điện thoại fields blank
     [Arguments]     ${code}     ${name}     ${url}      ${type}
+    Set Global Variable     ${TEST NAME}    ${code}
     When Go to page create account ${name} with ${url}
     When Enter "test name" in "Họ và tên" with "_RANDOM_"
     When Enter "email" in "Email" with "_RANDOM_"
@@ -290,6 +300,7 @@ Verify when Create menu unsuccessfully when leaving Số điện thoại fields 
 
 Verify when Create menu unsuccessfully when leaving Giới tính fields blank
     [Arguments]     ${code}     ${name}     ${url}      ${type}
+    Set Global Variable     ${TEST NAME}    ${code}
     When Go to page create account ${name} with ${url}
     When Enter "test name" in "Họ và tên" with "_RANDOM_"
     When Enter "email" in "Email" with "_RANDOM_"
@@ -303,6 +314,7 @@ Verify when Create menu unsuccessfully when leaving Giới tính fields blank
 
 Verify when Create menu unsuccessfully when leaving Loại tài khoản fields blank
     [Arguments]     ${code}     ${name}     ${url}      ${type}
+    Set Global Variable     ${TEST NAME}    ${code}
     When Go to page create account ${name} with ${url}
     When Enter "test name" in "Họ và tên" with "_RANDOM_"
     When Enter "email" in "Email" with "_RANDOM_"
@@ -316,6 +328,7 @@ Verify when Create menu unsuccessfully when leaving Loại tài khoản fields b
 
 Verify when Create menu unsuccessfully when leaving Password fields blank
     [Arguments]     ${code}     ${name}     ${url}      ${type}
+    Set Global Variable     ${TEST NAME}    ${code}
     When Go to page create account ${name} with ${url}
     When Enter "test name" in "Họ và tên" with "_RANDOM_"
     When Enter "email" in "Email" with "_RANDOM_"
@@ -329,6 +342,7 @@ Verify when Create menu unsuccessfully when leaving Password fields blank
 
 Verify when Create menu unsuccessfully when leaving Xác nhận mật khẩu fields blank
     [Arguments]     ${code}     ${name}     ${url}      ${type}
+    Set Global Variable     ${TEST NAME}    ${code}
     When Go to page create account ${name} with ${url}
     When Enter "test name" in "Họ và tên" with "_RANDOM_"
     When Enter "email" in "Email" with "_RANDOM_"
@@ -342,6 +356,7 @@ Verify when Create menu unsuccessfully when leaving Xác nhận mật khẩu fie
 
 Verification failed when entering data Confirm Password does not match Password
     [Arguments]     ${code}     ${name}     ${url}      ${type}
+    Set Global Variable     ${TEST NAME}    ${code}
     When Go to page create account ${name} with ${url}
     When Enter "test name" in "Họ và tên" with "_RANDOM_"
     When Enter "email" in "Email" with "_RANDOM_"
@@ -356,6 +371,7 @@ Verification failed when entering data Confirm Password does not match Password
 
 Verify when Create Account unsuccessfully when leaving all fields blank
     [Arguments]     ${code}     ${name}     ${url}      ${type}
+    Set Global Variable     ${TEST NAME}    ${code}
     When Go to page create account ${name} with ${url}
     When Click "Lưu lại" button
     Then Required message "Họ và tên" displayed under "Xin vui lòng nhập họ và tên" field
@@ -369,6 +385,7 @@ Verify when Create Account unsuccessfully when leaving all fields blank
 ###  -----  Compare paths  -----  ###
 Verify when change password Account unsuccessful because leaving Password field
     [Arguments]     ${code}     ${name}     ${url}      ${type}
+    Set Global Variable     ${TEST NAME}    ${code}
     When Background ${type} Happy paths ${name} with ${url}
     When Click on the "Đổi mật khẩu" button in the "Họ và tên" table line
     When Enter "text" in "Xác nhận mật khẩu" with "_RANDOM_"
@@ -381,6 +398,7 @@ Verify when change password Account unsuccessful because leaving Password field
 
 Verify when change password Account unsuccessful because leaving Confirm password field
     [Arguments]     ${code}     ${name}     ${url}      ${type}
+    Set Global Variable     ${TEST NAME}    ${code}
     When Background ${type} Happy paths ${name} with ${url}
     When Click on the "Đổi mật khẩu" button in the "Họ và tên" table line
     When Enter "text" in "Mật khẩu" with "_RANDOM_"
@@ -392,6 +410,7 @@ Verify when change password Account unsuccessful because leaving Confirm passwor
 
 Verify when change password Account unsuccessful because leaving All field
     [Arguments]     ${code}     ${name}     ${url}      ${type}
+    Set Global Variable     ${TEST NAME}    ${code}
     When Background ${type} Happy paths ${name} with ${url}
     When Click on the "Đổi mật khẩu" button in the "Họ và tên" table line
     When Click "Lưu lại" button
@@ -403,6 +422,7 @@ Verify when change password Account unsuccessful because leaving All field
 
 Verification Change password failed when Confirm Password field was blank
     [Arguments]     ${code}     ${name}     ${url}      ${type}
+    Set Global Variable     ${TEST NAME}    ${code}
     When Background ${type} Happy paths ${name} with ${url}
     When Click on the "Đổi mật khẩu" button in the "Họ và tên" table line
     When Enter "text" in "Mật khẩu" with "_RANDOM_"
@@ -415,6 +435,7 @@ Verification Change password failed when Confirm Password field was blank
 
 Verify when change password Account unsuccessful because clear Customer name field
     [Arguments]     ${code}     ${name}     ${url}      ${type}
+    Set Global Variable     ${TEST NAME}    ${code}
     When Background ${type} Happy paths ${name} with ${url}
     Then User look message "Tạo tài khoản thành công" popup
     When Click on the "Sửa" button in the "Họ và tên" table line
@@ -428,6 +449,7 @@ Verify when change password Account unsuccessful because clear Customer name fie
 
 Verify when change password Account unsuccessful because clear Phone number field
     [Arguments]     ${code}     ${name}     ${url}      ${type}
+    Set Global Variable     ${TEST NAME}    ${code}
     When Background ${type} Happy paths ${name} with ${url}
     Then User look message "Tạo tài khoản thành công" popup
     When Click on the "Sửa" button in the "Họ và tên" table line
@@ -441,6 +463,7 @@ Verify when change password Account unsuccessful because clear Phone number fiel
 
 Verify when create Account unsuccessful because same Email
     [Arguments]     ${code}     ${name}     ${url}      ${type}
+    Set Global Variable     ${TEST NAME}    ${code}
     When Background ${type} Happy paths ${name} with ${url}
     Then User look message "Tạo tài khoản thành công" popup
     When Click "Tạo mới" button
@@ -459,6 +482,7 @@ Verify when create Account unsuccessful because same Email
 
 Verify when create Account unsuccessful because same Phone Number
     [Arguments]     ${code}     ${name}     ${url}      ${type}
+    Set Global Variable     ${TEST NAME}    ${code}
     When Background ${type} Happy paths ${name} with ${url}
     Then User look message "Tạo tài khoản thành công" popup
     When Click "Tạo mới" button

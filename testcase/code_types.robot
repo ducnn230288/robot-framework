@@ -71,6 +71,7 @@ Background ${type} Happy paths
 
 Verify when create successful
     [Arguments]     ${code}     ${type}
+    Set Global Variable     ${TEST NAME}    ${code}
     When Background ${type} Happy paths
     Then User look message "Success" popup
     When Click on the "Xóa" button in the "Tiêu đề" table line
@@ -78,6 +79,7 @@ Verify when create successful
 
 Verify when edit successful
     [Arguments]     ${code}     ${type}
+    Set Global Variable     ${TEST NAME}    ${code}
     When Background ${type} Happy paths
     Then User look message "Success" popup
     Then Click on the "Sửa" button in the "Tiêu đề" table line
@@ -91,6 +93,7 @@ Verify when edit successful
 
 Verify when remove successful
     [Arguments]     ${code}     ${type}
+    Set Global Variable     ${TEST NAME}    ${code}
     When Background ${type} Happy paths
     Then User look message "Success" popup
     When Click on the "Xóa" button in the "Tiêu đề" table line
@@ -99,6 +102,7 @@ Verify when remove successful
 
 Verify when create unsuccessful beacause leaving Title field
     [Arguments]     ${code}     ${type}
+    Set Global Variable     ${TEST NAME}    ${code}
     When Go to page create code types ${type}
     When Enter "number" in "Thứ tự" with "_RANDOM_"
     When Enter "text" in "Mã" with "_RANDOM_"
@@ -109,6 +113,7 @@ Verify when create unsuccessful beacause leaving Title field
 
 Verify when create unsuccessful beacause leaving Code field
     [Arguments]     ${code}     ${type}
+    Set Global Variable     ${TEST NAME}    ${code}
     When Go to page create code types ${type}
     When Enter "test name" in "Tiêu đề" with "_RANDOM_"
     When Enter "number" in "Thứ tự" with "_RANDOM_"
@@ -119,6 +124,7 @@ Verify when create unsuccessful beacause leaving Code field
 
 Verify when create unsuccessful beacause leaving All field
     [Arguments]     ${code}     ${type}
+    Set Global Variable     ${TEST NAME}    ${code}
     When Go to page create code types ${type}
     When Click "Lưu lại" button
     Then Required message "Tiêu đề" displayed under "Xin vui lòng nhập tiêu đề" field

@@ -1,6 +1,6 @@
 *** Settings ***
 Library             Browser
-Library             FakerLibrary        locale=en_IN    seed=1001
+Library             FakerLibrary        locale=en_IN
 Library             String
 
 *** Variables ***
