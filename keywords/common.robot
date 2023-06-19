@@ -84,6 +84,7 @@ Get Random Text
         ${new_text}=    FakerLibrary.Email
     ELSE IF  ${cnt} > 0 and '${type}' == 'phone'
         ${new_text}=    FakerLibrary.Random Int     min=55555555    max=999999999999
+        ${new_text}=    Convert To String   ${new_text}
     ELSE IF  ${cnt} > 0 and '${type}' == 'color'
         ${new_text}=    FakerLibrary.Safe Hex Color
     ELSE IF  ${cnt} > 0 and '${type}' == 'date'
@@ -95,31 +96,47 @@ Get Random Text
     END
 
     ${cnt}=             Get Length                  ${text}
-    Log    ${cnt} ${text}
     IF  ${cnt} > 0
         ${text}=        Replace String              ${text}         ${symbol}     ${new_text}
-        Log    ${text}
     END
     [Return]    ${text}
 Get Element Form Item By Name
     [Arguments]    ${name}      ${xpath}
-    [Return]    xpath=//*[contains(@class, "ant-form-item-label")]/label[text()="${name}"]/ancestor::*[contains(@class, "ant-form-item")]//${xpath}
+    [Return]    xpath=//*[contains(@class, "ant-form-item-label")]/label[text()="${name}"]/ancestor::*[contains(@class, "ant-form-item")]${xpath}
 
 Required message "${name}" displayed under "${text}" field
-    ${element}=     Get Element Form Item By Name   ${name}     *[contains(@class, "ant-form-item-explain-error")]
+    ${element}=     Get Element Form Item By Name   ${name}     //*[contains(@class, "ant-form-item-explain-error")]
     Element Text Should Be                          ${element}  ${text}
 Enter "${type}" in "${name}" with "${text}"
     ${text}=        Get Random Text                 ${type}     ${text}
-    ${element}=     Get Element Form Item By Name   ${name}     input
+    ${element}=     Get Element Form Item By Name   ${name}     //input
     Clear Text                                      ${element}
     Fill Text                                       ${element}  ${text}
-    Set Global Variable                             ${STATE["${name}"]}    ${text}
+    ${cnt}=             Get Length                  ${text}
+    IF  ${cnt} > 0
+        Set Global Variable                             ${STATE["${name}"]}    ${text}
+    END
 Enter "${type}" in textarea "${name}" with "${text}"
     ${text}=        Get Random Text                 ${type}     ${text}
-    ${element}=     Get Element Form Item By Name   ${name}     textarea
+    ${element}=     Get Element Form Item By Name   ${name}     //textarea
     Clear Text                                      ${element}
     Fill Text                                       ${element}  ${text}
-    Set Global Variable                             ${STATE["${name}"]}    ${text}
+    ${cnt}=             Get Length                  ${text}
+    IF  ${cnt} > 0
+        Set Global Variable                             ${STATE["${name}"]}    ${text}
+    END
+Click select "${name}" with "${text}"
+    ${text}=        Get Random Text                 Text     ${text}
+    ${element}=     Get Element Form Item By Name   ${name}     //*[contains(@class, "ant-select-show-arrow")]
+    Click    ${element}
+    ${element}=     Get Element Form Item By Name   ${name}     //*[contains(@class, "ant-select-selection-search-input")]
+    Fill Text                                       ${element}      ${text}
+    Click    xpath=//*[contains(@class, "ant-select-item-option") and @title="${text}"]
+    ${cnt}=             Get Length                  ${text}
+    IF  ${cnt} > 0
+        Set Global Variable                             ${STATE["${name}"]}    ${text}
+    END
+
 
 ###  -----  Table  -----  ###
 Get Element Item By Name

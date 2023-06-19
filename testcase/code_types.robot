@@ -6,45 +6,51 @@ Resource               ../keywords/common.robot
 *** Test Cases ***
 Verify when create successful
     [Tags]             smoketest    @regression
-    MPG_01 Verify when create Nhóm thủ thuật successful
-    MPD_01 Verify when create Độ khó successful
-    MD_01 Verify when create Bằng cấp chuyên môn successful
-#    NOT_01 Verify when create Số răng successful
+    [Template]    Verify when create successful
+    MPG_01 Verify when create Medical Procedure Group successful        Nhóm thủ thuật
+    MPD_01 Verify when create Medical Procedure Difficulty successful   Độ khó
+    MD_01 Verify when create Medical Degree successful                  Bằng cấp chuyên môn
+    NOT_01 Verify when create Number of Teeth successful                Số răng
 
 Verify when edit successful
     [Tags]             smoketest
-    MPG_02 Verify when edit Nhóm thủ thuật successful
-    MPD_02 Verify when edit Độ khó successful
-    MD_02 Verify when edit Bằng cấp chuyên môn successful
-#    NOT_02 Verify when edit Số răng successful
+    [Template]    Verify when edit successful
+    MPG_02 Verify when edit Medical Procedure Group successful        Nhóm thủ thuật
+    MPD_02 Verify when edit Medical Procedure Difficulty successful   Độ khó
+    MD_02 Verify when edit Medical Degree successful                  Bằng cấp chuyên môn
+    NOT_02 Verify when edit Number of Teeth successful                Số răng
 
 Verify when remove successful
     [Tags]             smoketest
-    MPG_03 Verify when remove Nhóm thủ thuật successful
-    MPD_03 Verify when remove Độ khó successful
-    MD_03 Verify when remove Bằng cấp chuyên môn successful
-#    NOT_03 Verify when remove Số răng successful
+    [Template]    Verify when remove successful
+    MPG_03 Verify when remove Medical Procedure Group successful        Nhóm thủ thuật
+    MPD_03 Verify when remove Medical Procedure Difficulty successful   Độ khó
+    MD_03 Verify when remove Medical Degree successful                  Bằng cấp chuyên môn
+    NOT_03 Verify when remove Number of Teeth successful                Số răng
 
 Verify when create unsuccessful beacause leaving Title field
     [Tags]             smoketest
-    MPG_04 Verify when create Nhóm thủ thuật unsuccessful beacause leaving Title field
-    MPD_04 Verify when create Độ khó unsuccessful beacause leaving Title field
-    MD_04 Verify when create Bằng cấp chuyên môn unsuccessful beacause leaving Title field
-    NOT_04 Verify when create Số răng unsuccessful beacause leaving Title field
+    [Template]    Verify when create unsuccessful beacause leaving Title field
+    MPG_04 Verify when create Medical Procedure Group unsuccessful beacause leaving Title field        Nhóm thủ thuật
+    MPD_04 Verify when create Medical Procedure Difficulty unsuccessful beacause leaving Title field   Độ khó
+    MD_04 Verify when create Medical Degree unsuccessful beacause leaving Title field                  Bằng cấp chuyên môn
+    NOT_04 Verify when create Number of Teeth unsuccessful beacause leaving Title field                Số răng
 
 Verify when create unsuccessful beacause leaving Code field
     [Tags]             smoketest
-    MPG_05 Verify when create Nhóm thủ thuật unsuccessful beacause leaving Code field
-    MPD_05 Verify when create Độ khó unsuccessful beacause leaving Code field
-    MD_05 Verify when create Bằng cấp chuyên môn unsuccessful beacause leaving Code field
-    NOT_05 Verify when create Số răng unsuccessful beacause leaving Code field
+    [Template]    Verify when create unsuccessful beacause leaving Code field
+    MPG_05 Verify when create Medical Procedure Group unsuccessful beacause leaving Code field        Nhóm thủ thuật
+    MPD_05 Verify when create Medical Procedure Difficulty unsuccessful beacause leaving Code field   Độ khó
+    MD_05 Verify when create Medical Degree unsuccessful beacause leaving Code field                  Bằng cấp chuyên môn
+    NOT_05 Verify when create Number of Teeth unsuccessful beacause leaving Code field                Số răng
 
 Verify when create unsuccessful beacause leaving All field
     [Tags]             smoketest
-    MPG_06 Verify when create Nhóm thủ thuật unsuccessful beacause leaving All field
-    MPD_06 Verify when create Độ khó unsuccessful beacause leaving All field
-    MD_06 Verify when create Bằng cấp chuyên môn unsuccessful beacause leaving All field
-    NOT_06 Verify when create Số răng unsuccessful beacause leaving All field
+    [Template]    Verify when create unsuccessful beacause leaving All field
+    MPG_06 Verify when create Medical Procedure Group unsuccessful beacause leaving All field        Nhóm thủ thuật
+    MPD_06 Verify when create Medical Procedure Difficulty unsuccessful beacause leaving All field   Độ khó
+    MD_06 Verify when create Medical Degree unsuccessful beacause leaving All field                  Bằng cấp chuyên môn
+    NOT_06 Verify when create Number of Teeth unsuccessful beacause leaving All field                Số răng
 
 *** Keywords ***
 Go to page create code types ${type}
@@ -63,13 +69,15 @@ Background ${type} Happy paths
     When Enter "paragraph" in textarea "Mô tả" with "_RANDOM_"
     When Click "Lưu lại" button
 
-${code} Verify when create ${type} successful
+Verify when create successful
+    [Arguments]     ${code}     ${type}
     When Background ${type} Happy paths
     Then User look message "Success" popup
     When Click on the "Xóa" button in the "Tiêu đề" table line
     When Tear Down
 
-${code} Verify when edit ${type} successful
+Verify when edit successful
+    [Arguments]     ${code}     ${type}
     When Background ${type} Happy paths
     Then User look message "Success" popup
     Then Click on the "Sửa" button in the "Tiêu đề" table line
@@ -81,14 +89,16 @@ ${code} Verify when edit ${type} successful
     Then Click on the "Xóa" button in the "Tiêu đề" table line
     When Tear Down
 
-${code} Verify when remove ${type} successful
+Verify when remove successful
+    [Arguments]     ${code}     ${type}
     When Background ${type} Happy paths
     Then User look message "Success" popup
     When Click on the "Xóa" button in the "Tiêu đề" table line
     Then User look message "Đã xóa thành công" popup
     When Tear Down
 
-${code} Verify when create ${type} unsuccessful beacause leaving Title field
+Verify when create unsuccessful beacause leaving Title field
+    [Arguments]     ${code}     ${type}
     When Go to page create code types ${type}
     When Enter "number" in "Thứ tự" with "_RANDOM_"
     When Enter "text" in "Mã" with "_RANDOM_"
@@ -97,7 +107,8 @@ ${code} Verify when create ${type} unsuccessful beacause leaving Title field
     Then Required message "Tiêu đề" displayed under "Xin vui lòng nhập tiêu đề" field
     When Tear Down
 
-${code} Verify when create ${type} unsuccessful beacause leaving Code field
+Verify when create unsuccessful beacause leaving Code field
+    [Arguments]     ${code}     ${type}
     When Go to page create code types ${type}
     When Enter "test name" in "Tiêu đề" with "_RANDOM_"
     When Enter "number" in "Thứ tự" with "_RANDOM_"
@@ -106,7 +117,8 @@ ${code} Verify when create ${type} unsuccessful beacause leaving Code field
     Then Required message "Mã" displayed under "Xin vui lòng nhập mã" field
     When Tear Down
 
-${code} Verify when create ${type} unsuccessful beacause leaving All field
+Verify when create unsuccessful beacause leaving All field
+    [Arguments]     ${code}     ${type}
     When Go to page create code types ${type}
     When Click "Lưu lại" button
     Then Required message "Tiêu đề" displayed under "Xin vui lòng nhập tiêu đề" field
