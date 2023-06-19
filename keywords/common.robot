@@ -101,20 +101,20 @@ Get Random Text
     END
     [Return]    ${text}
 Get Element Form Item By Name
-    [Arguments]    ${name}      ${xpath}
-    [Return]    xpath=//*[contains(@class, "ant-form-item-label")]/label[text()="${name}"]/ancestor::*[contains(@class, "ant-form-item")]${xpath}
+    [Arguments]    ${name}      ${xpath}=${EMPTY}
+    [Return]    xpath=//*[contains(@class, "ant-form-item-label")]/label[text()="${name}"]/../../*[contains(@class, "ant-form-item")]${xpath}
 
 Required message "${name}" displayed under "${text}" field
     ${element}=     Get Element Form Item By Name   ${name}     //*[contains(@class, "ant-form-item-explain-error")]
     Element Text Should Be                          ${element}  ${text}
 Enter "${type}" in "${name}" with "${text}"
     ${text}=        Get Random Text                 ${type}     ${text}
-    ${element}=     Get Element Form Item By Name   ${name}     //input
+    ${element}=     Get Element Form Item By Name   ${name}     //input[contains(@class, "ant-input")]
     Clear Text                                      ${element}
     Fill Text                                       ${element}  ${text}
     ${cnt}=             Get Length                  ${text}
     IF  ${cnt} > 0
-        Set Global Variable                             ${STATE["${name}"]}    ${text}
+        Set Global Variable                         ${STATE["${name}"]}    ${text}
     END
 Enter "${type}" in textarea "${name}" with "${text}"
     ${text}=        Get Random Text                 ${type}     ${text}
@@ -123,7 +123,7 @@ Enter "${type}" in textarea "${name}" with "${text}"
     Fill Text                                       ${element}  ${text}
     ${cnt}=             Get Length                  ${text}
     IF  ${cnt} > 0
-        Set Global Variable                             ${STATE["${name}"]}    ${text}
+        Set Global Variable                         ${STATE["${name}"]}    ${text}
     END
 Click select "${name}" with "${text}"
     ${text}=        Get Random Text                 Text     ${text}
@@ -136,7 +136,20 @@ Click select "${name}" with "${text}"
     IF  ${cnt} > 0
         Set Global Variable                             ${STATE["${name}"]}    ${text}
     END
-
+Enter "${type}" in editor "${name}" with "${text}"
+    ${text}=        Get Random Text                 ${type}     ${text}
+    ${element}=     Get Element Form Item By Name   ${name}     //*[contains(@class, "ce-paragraph")]
+    Clear Text                                      ${element}
+    Fill Text                                       ${element}  ${text}
+Select file in "${name}" with "${text}"
+    ${element}=     Get Element Form Item By Name   ${name}     //input[@type = "file"]
+    Upload File By Selector                         ${element}  upload/${text}
+Click radio "${text}" in line "${name}"
+    ${element}=     Get Element Form Item By Name   ${name}     //*[contains(@class, "ant-radio-button-wrapper")]/span[contains(text(), "${text}")]
+    Click    ${element}
+Click switch "${name}" to be activated
+    ${element}=     Get Element Form Item By Name   ${name}     //button[contains(@class, "ant-switch")]
+    Click    ${element}
 
 ###  -----  Table  -----  ###
 Get Element Item By Name
@@ -160,6 +173,9 @@ Click on the "${text}" button in the "${name}" table line
 Click "${text}" button
     Click   xpath=//button[@title = "${text}"]
     Click Confirm To Action
+    Scroll By    ${None}
+Click "${text}" tab button
+    Click   xpath=//*[contains(@class, "ant-tabs-tab-btn") and contains(text(), "${text}")]
 
 Select on the "${text}" item line
     Wait Until Element Spin
