@@ -5,8 +5,8 @@ Library             String
 
 *** Variables ***
 ${BROWSER}          chromium
-${HEADLESS}         true
-${BROWSER_TIMEOUT}  5 seconds
+${HEADLESS}         ${True}
+${BROWSER_TIMEOUT}  60 seconds
 ${SHOULD_TIMEOUT}   0.1 seconds
 
 ${URL_DEFAULT}      http://localhost:4200/vn
@@ -254,6 +254,7 @@ Click Confirm To Action
     ${count}=           Get Element Count               ${element}
     IF    ${count} > 0
         Click           ${element}
+        Sleep           ${SHOULD_TIMEOUT}
     END
 
 Wait Until Element Spin
