@@ -14,7 +14,7 @@ ${STATE}            Evaluate  json.loads('''{}''')  json
 
 *** Keywords ***
 Login to admin
-    Enter "text" in "Email" with "admin@gmail.com"
+    Enter "email" in "Email" with "admin@gmail.com"
     Enter "text" in "Mật khẩu" with "123123"
     Click "Đăng nhập" button
     User look message "Success" popup
@@ -125,6 +125,18 @@ Enter "${type}" in textarea "${name}" with "${text}"
         Set Global Variable                             ${STATE["${name}"]}     ${text}
     END
 
+Enter date in "${name}" with "${text}"
+    ${text}=            Get Random Text                 date                    ${text}
+    ${element}=         Get Element Form Item By Name   ${name}                 //[contains(@class, "ant-picker-input")]//input
+    Click ${element}
+    Sleep   1
+    Clear Text                                          ${element}
+    Fill Text                                           ${element}              ${text}
+    ${cnt}=             Get Length                      ${text}
+    IF  ${cnt} > 0
+        Set Global Variable                             ${STATE["${name}"]}     ${text}
+    END
+
 Click select "${name}" with "${text}"
     ${text}=            Get Random Text                 Text                    ${text}
     ${element}=         Get Element Form Item By Name   ${name}                 //*[contains(@class, "ant-select-show-arrow")]
@@ -145,7 +157,7 @@ Enter "${type}" in editor "${name}" with "${text}"
 
 Select file in "${name}" with "${text}"
     ${element}=         Get Element Form Item By Name   ${name}                 //input[@type = "file"]
-    Upload File By Selector                             ${element}              upload/${text}
+    Upload File By Selector                             ${element}              test/upload/${text}
 
 Click radio "${text}" in line "${name}"
     ${element}=         Get Element Form Item By Name   ${name}                 //*[contains(@class, "ant-radio-button-wrapper")]/span[contains(text(), "${text}")]
@@ -183,7 +195,7 @@ Click on the "${text}" button in the "${name}" item line
 
 Get Element Table Item By Name
     [Arguments]         ${name}                         ${xpath}
-    [Return]            xpath=//*[contains(@class, "ant-table-cell")]//*[contains(text(), "${name}")]/ancestor::tr${xpath}
+    [Return]            xpath=//*[contains(@class, "ant-table-row")]//*[contains(text(), "${name}")]/ancestor::tr${xpath}
 
 Click on the "${text}" button in the "${name}" table line
     Wait Until Element Spin
