@@ -9,7 +9,7 @@ DA-01 Verify that Add New successfully with enter the data
     When Background Happy paths
     When Click on the "Xóa" button in the "Tiêu đề" table line
 
-DA-02 Verify that add successfully with enter "Tiêu đề"
+DA-02 DA-02 Verify that add successfully with enter "Tiêu đề" and "Chuyên mục"
     [Tags]             smoketest
     When Background Happy paths
     When Click on the "Xóa" button in the "Tiêu đề" table line

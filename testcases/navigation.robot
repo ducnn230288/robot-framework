@@ -4,13 +4,13 @@ Test Setup             Setup
 #Test Teardown          Tear Down
 
 *** Test Cases ***
-DH_01 Verify when Create menu successfully
+DH-01 Verify when Create menu successfully
     [Tags]             smoketest
     When Background Happy paths
     When Click on the previously created "Tên điều hướng" tree to delete
     Then User look message "Success" popup
 
-DH_02 Verify when Edit menu successfully
+DH-02 Verify when Edit menu successfully
     [Tags]             smoketest
     When Background Happy paths
     When Click on the previously created "Tên điều hướng" tree to edit
@@ -22,13 +22,13 @@ DH_02 Verify when Edit menu successfully
     Then User look message "Success" popup
     When Click on the previously created "Tên điều hướng" tree to delete
 
-DH_03 Verify when Delete menu successfully
+DH-03 Verify when Delete menu successfully
     [Tags]             smoketest
     When Background Happy paths
     When Click on the previously created "Tên điều hướng" tree to delete
     Then User look message "Success" popup
 
-DH_04 Verify when Create menu successfully with off button activated
+DH-04 Verify when Create menu successfully with off button activated
     [Tags]             smoketest
     When Background Happy paths
     When Click on the previously created "Tên điều hướng" tree to delete
@@ -45,7 +45,7 @@ DH_04 Verify when Create menu successfully with off button activated
     Then User look message "Success" popup
     When Click on the previously created "Tên điều hướng" tree to delete
 
-DH_05 Verify when Create menu unsuccessfully when leaving all fields blank
+DH-05 Verify when Create menu unsuccessfully when leaving all fields blank
     [Tags]             smoketest
     When Go to page create data
     And Click "Lưu lại" button
@@ -54,7 +54,7 @@ DH_05 Verify when Create menu unsuccessfully when leaving all fields blank
     Then Required message "Link" displayed under "Xin vui lòng nhập link" field
     Then Required message "Số thứ tự" displayed under "Xin vui lòng nhập số thứ tự" field
 
-DH_06 Verify when Create menu unsuccessfully when leaving Tên điều hướng field
+DH-06 Verify when Create menu unsuccessfully when leaving "Tên điều hướng" field
     [Tags]             smoketest
     When Go to page create data
     When Enter "word" in "Mã điều hướng" with "_RANDOM_"
@@ -67,7 +67,7 @@ DH_06 Verify when Create menu unsuccessfully when leaving Tên điều hướng 
     And Click "Lưu lại" button
     Then Required message "Tên điều hướng" displayed under "Xin vui lòng nhập tên điều hướng" field
 
-DH_07 Verify when Create menu unsuccessfully when leaving the Số thứ tự field
+DH-07 Verify when Create menu unsuccessfully when leaving the "Số thứ tự" field
     [Tags]             smoketest
     When Go to page create data
     When Enter "test name" in "Tên điều hướng" with "_RANDOM_"
@@ -80,7 +80,7 @@ DH_07 Verify when Create menu unsuccessfully when leaving the Số thứ tự fi
     And Click "Lưu lại" button
     Then Required message "Số thứ tự" displayed under "Xin vui lòng nhập số thứ tự" field
 
-DH_08 Verify when creating menu unsuccessfully when inputting alphabetic characters into the Số thứ tự field
+DH-08 Verify when creating menu unsuccessfully when inputting alphabetic characters into the "Số thứ tự" field
     [Tags]             smoketest
     When Go to page create data
     When Enter "test name" in "Tên điều hướng" with "_RANDOM_"
@@ -89,6 +89,8 @@ DH_08 Verify when creating menu unsuccessfully when inputting alphabetic charact
     ${passed}    Run Keyword And Return Status
                  ...    Enter "word" in "Số thứ tự" with "_RANDOM_"
     IF    '${passed}' == 'True'
+        Then Required message "Số thứ tự" displayed under "Xin vui lòng nhập số thứ tự" field
+    ELSE
         When Click switch "Kích hoạt" to be activated
         When Enter "word" in "Biểu tượng" with "las la-folder-minus"
         When Click tree select "Điều hướng cha" with "SUPERADMIN"
@@ -97,7 +99,7 @@ DH_08 Verify when creating menu unsuccessfully when inputting alphabetic charact
         Then Required message "Số thứ tự" displayed under "Xin vui lòng nhập số thứ tự" field
     END
 
-DH_10 Verify when create menu unsuccessfully when leaving Mã điều hướng field
+DH-10 Verify when create menu unsuccessfully when leaving "Mã điều hướng" field
     [Tags]             smoketest
     When Go to page create data
     When Enter "test name" in "Tên điều hướng" with "_RANDOM_"
@@ -110,7 +112,7 @@ DH_10 Verify when create menu unsuccessfully when leaving Mã điều hướng f
     And Click "Lưu lại" button
     Then Required message "Mã điều hướng" displayed under "Xin vui lòng nhập mã điều hướng" field
 
-DH_11 Verify when creating menu unsuccessfully when inputting existing data into Mã điều hướng field
+DH-11 Verify when creating menu unsuccessfully when inputting existing data into "Mã điều hướng" field
     [Tags]             smoketest
     When Background Happy paths
     When Click "Tạo mới" button
@@ -126,7 +128,7 @@ DH_11 Verify when creating menu unsuccessfully when inputting existing data into
     Then User look message "Mã: _@Mã điều hướng@_ đã tồn tại" popup
     When Click on the previously created "Tên điều hướng" tree to delete
 
-DH_12 Verify when clicking Notification of Content Check Management then clicking on add new button
+DH_12 Verify when creating menu unsuccessfully when clicking Notification of Content Check Management then clicking on Tạo mới button
     [Tags]             smoketest
     When Background Happy paths
     When Click on the previously created "Tên điều hướng" tree to edit
@@ -138,7 +140,7 @@ DH_12 Verify when clicking Notification of Content Check Management then clickin
     Then Required message "Số thứ tự" displayed under "Xin vui lòng nhập số thứ tự" field
     When Click on the previously created "Tên điều hướng" tree to delete
 
-DH_13 Verify when editing unsuccessfully when selecting Điều hướng cha same name as Tên điều hướng field
+DH_13 Verify when editing unsuccessfully when selecting "Điều hướng cha" same name as "Tên điều hướng" field
     [Tags]             smoketest
     When Background Happy paths
     When Click on the previously created "Tên điều hướng" tree to edit

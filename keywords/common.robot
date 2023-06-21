@@ -109,7 +109,7 @@ Enter "${type}" in "${name}" with "${text}"
     ${text}=            Get Random Text                 ${type}                 ${text}
     ${element}=         Get Element Form Item By Name   ${name}                 //input[contains(@class, "ant-input")]
     Clear Text                                          ${element}
-    Fill Text                                           ${element}              ${text}
+    Fill Text                                           ${element}              ${text}     True
     ${cnt}=             Get Length                      ${text}
     IF  ${cnt} > 0
         Set Global Variable                             ${STATE["${name}"]}     ${text}
@@ -247,6 +247,7 @@ User look message "${message}" popup
     IF    '${passed}' == 'True'
         Click           ${element}
     END
+    Wait Until Element Spin
 
 Click Confirm To Action
     ${element}          Set Variable                    xpath=//*[contains(@class, "ant-popover")]//*[contains(@class, "ant-btn-primary")]

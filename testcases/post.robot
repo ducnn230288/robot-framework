@@ -10,7 +10,7 @@ DA-01 Verify that Add New successfully with enter the data
     When Click on the "Xóa" button in the "Tiêu đề" table line
     Then User look message "Đã xóa thành công" popup
 
-PO-02 Verify that add successfully with enter Title and categories
+PO-02 PO-02 Verify that add successfully with enter "Tiêu đề" and categories
     [Tags]             smoketest
     When Background Happy paths
     When Click on the "Xóa" button in the "Tiêu đề" table line
@@ -133,7 +133,7 @@ PO-09 Verify when Create Post unsuccessfully when leaving "Tiêu đề" fields b
     When Click "Tiếng Việt" tab button
     Then Required message "Tiêu đề" displayed under "Xin vui lòng nhập tiêu đề" field
 
-PO-10 Verify when Create Post unsuccessfully when leaving title blank in VietNamese format
+PO-10 Verify when Create Post unsuccessfully when leaving "Tiêu đề" blank in VietNamese format
     [Tags]             smoketest
     When Go to page create data
     When Click select "Chuyên mục" with "Press release"
@@ -143,7 +143,7 @@ PO-10 Verify when Create Post unsuccessfully when leaving title blank in VietNam
     When Click "Tiếng Việt" tab button
     Then Required message "Tiêu đề" displayed under "Xin vui lòng nhập tiêu đề" field
 
-PO-11 Verify when Create Post unsuccessfully when leaving title blank in English format
+PO-11 Verify when Create Post unsuccessfully when leaving "Tiêu đề" blank in English format
     [Tags]             smoketest
     When Go to page create data
     When Click select "Chuyên mục" with "Press release"
