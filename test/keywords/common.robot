@@ -127,14 +127,15 @@ Enter "${type}" in textarea "${name}" with "${text}"
 
 Enter date in "${name}" with "${text}"
   ${text}=                  Get Random Text                   date                          ${text}
-  ${element}=               Get Element Form Item By Name     ${name}                       //[contains(@class, "ant-picker-input")]//input
+  ${element}=               Get Element Form Item By Name     ${name}                       //*[contains(@class, "ant-picker-input")]/input
   Click                     ${element}
-  Sleep                     1
   Clear Text                ${element}
   Fill Text                 ${element}                        ${text}
+  Press Keys                ${element}                        Tab
+  Press Keys                ${element}                        Tab
   ${cnt}=                   Get Length                        ${text}
   IF  ${cnt} > 0
-    Set Global Variable     ${STATE["${name}"]}               ${text}
+      Set Global Variable   ${STATE["${name}"]}               ${text}
   END
 
 Click select "${name}" with "${text}"
