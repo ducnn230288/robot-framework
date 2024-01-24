@@ -1,186 +1,409 @@
 *** Settings ***
-Resource                ../keywords/common.robot
-Test Setup              Setup
-Test Teardown           Tear Down
+Resource            ../keywords/common.robot
+Library             DateTime
+Test Setup          Setup
+Test Teardown       Tear Down
+
 
 *** Test Cases ***
-DH-01 Verify when Create menu successfully
-  [Tags]                @smoketest               @regression
-  When Background Happy paths
-  When Click on the previously created "Tên điều hướng" tree to delete
-  Then User look message "Success" popup
+### Link to Test Cases    https://docs.google.com/spreadsheets/d/1DbP64bT7QpASuE3NeiIVDdeHpdrKQon3HqF9rsUzbFU/edit#gid=496273627   ###
 
-DH-02 Verify when Edit menu successfully
-  [Tags]                @smoketest               @regression
-  When Background Happy paths
-  When Click on the previously created "Tên điều hướng" tree to edit
-  When Enter "test name" in "Tên điều hướng" with "_RANDOM_"
-  When Enter "word" in "Mã điều hướng" with "_RANDOM_"
-  When Enter "word" in "Link" with "/_RANDOM_"
-  When Enter "number" in "Số thứ tự" with "_RANDOM_"
-  When Click "Lưu lại" button
-  Then User look message "Success" popup
-  When Click on the previously created "Tên điều hướng" tree to delete
+### Check the User Interface of the Navigation page ###
+DH_01 Verify that navigating to the right "Navigation" page
+    [Tags]                                                                                        MainPage                                    UI                                          Smoketest
+    Login to admin
+    When Click "SUPERADMIN" menu
+    When Click "Phân quyền điều hướng" sub menu to "/navigation"
+    Then Confirm locating exactly in "Phân quyền điều hướng" page
+    Then Heading should contain "ĐIỀU HƯỚNG" inner Text
+    Then Webpage should contain the search function
+    Then Webpage should contain "Tạo mới" button
 
-DH-03 Verify when Delete menu successfully
-  [Tags]                @smoketest               @regression
-  When Background Happy paths
-  When Click on the previously created "Tên điều hướng" tree to delete
-  Then User look message "Success" popup
+### Verify the creating data function ###
+DH_02 Verify "Tạo mới" button function
+    [Tags]                                                                                        Create                                      Smoketest
+    Go to "Điều hướng" page
+    When Click "Tạo mới" button
+    Then Heading of separated group should contain "Thông tin" inner Text
+    Then Webpage should contain "Tên điều hướng" input field
+    Then Webpage should contain "Mã điều hướng" input field
+    Then Webpage should contain "Link" input field
+    Then Webpage should contain "Số thứ tự" input field
+    Then Webpage should contain "Biểu tượng" input field
+    Then Webpage should contain "Điều hướng cha" select field
+    Then Webpage should contain "Tham số truy vấn" input field
+    Then Webpage should contain "Kích hoạt" switch button
+    Then Webpage should contain "Gán nhóm" assign list
+    Then Webpage should contain "Lưu lại" button
 
-DH-04 Verify when Create menu successfully with off button activated
-  [Tags]                @smoketest               @regression
-  When Background Happy paths
-  When Click on the previously created "Tên điều hướng" tree to delete
-  Then User look message "Success" popup
-  When Click "Tạo mới" button
-  When Enter "test name" in "Tên điều hướng" with "_RANDOM_"
-  When Enter "word" in "Mã điều hướng" with "_RANDOM_"
-  When Enter "word" in "Link" with "/_RANDOM_"
-  When Enter "number" in "Số thứ tự" with "_RANDOM_"
-  When Enter "word" in "Biểu tượng" with "las la-folder-minus"
-  When Click tree select "Điều hướng cha" with "SUPERADMIN"
-  When Click assign list "Order Side, Farmer Side"
-  And Click "Lưu lại" button
-  Then User look message "Success" popup
-  When Click on the previously created "Tên điều hướng" tree to delete
+DH_03 Verify that CAN create new data with the valid navigation
+    [Tags]                                                                                        Create                                      Smoketest
+    Go to page create data "Phân quyền điều hướng" with "/navigation"
+    When Enter "test name" in "Tên điều hướng" with "_RANDOM_"
+    When Enter "word" in "Mã điều hướng" with "_RANDOM_"
+    When Enter "word" in "Link" with "/_@Mã điều hướng@_"
+    When Enter "number" in "Số thứ tự" with "_RANDOM_"
+    When Enter "text" in "Biểu tượng" with "las la-folder-minus"
+    When Click tree select "Điều hướng cha" with "DASHBOARD"
+    When Enter "text" in "Tham số truy vấn" with "_RANDOM_"
+    When Click switch "Kích hoạt" to change button status
+    When Click assign list "Order Side, Farmer Side"
+    When Click "Lưu lại" button
+    Then User look message "Success" popup
+    When Click on the "_@Tên điều hướng@_" tree to delete
 
-DH-05 Verify when Create menu unsuccessfully when leaving all fields blank
-  [Tags]                @smoketest               @regression
-  When Go to page create data
-  And Click "Lưu lại" button
-  Then Required message "Tên điều hướng" displayed under "Xin vui lòng nhập tên điều hướng" field
-  Then Required message "Mã điều hướng" displayed under "Xin vui lòng nhập mã điều hướng" field
-  Then Required message "Link" displayed under "Xin vui lòng nhập link" field
-  Then Required message "Số thứ tự" displayed under "Xin vui lòng nhập số thứ tự" field
+DH_04 Check the update of data list after creating a new data
+    [Tags]                                                                                        Create                                       Smoketest
+    Go to "Điều hướng" page
+    When Create a test data
+    Then "_@Tên điều hướng@_" should be visible in the tree line
+    When Click on the "_@Tên điều hướng@_" tree to delete
 
-DH-06 Verify when Create menu unsuccessfully when leaving "Tên điều hướng" field
-  [Tags]                @smoketest               @regression
-  When Go to page create data
-  When Enter "word" in "Mã điều hướng" with "_RANDOM_"
-  When Enter "word" in "Link" with "/_RANDOM_"
-  When Enter "number" in "Số thứ tự" with "_RANDOM_"
-  When Click switch "Kích hoạt" to be activated
-  When Enter "word" in "Biểu tượng" with "las la-folder-minus"
-  When Click tree select "Điều hướng cha" with "SUPERADMIN"
-  When Click assign list "Order Side, Farmer Side"
-  And Click "Lưu lại" button
-  Then Required message "Tên điều hướng" displayed under "Xin vui lòng nhập tên điều hướng" field
+### Create new data with blank field ###
+DH_05 Verify that CAN NOT create a new code data by leaving all blank field
+    [Tags]                                                                                        Create                                       BlankField
+    Go to page create data "Phân quyền điều hướng" with "/navigation"
+    When Click "Lưu lại" button
+    Then Required message "Xin vui lòng nhập tên điều hướng" displayed under "Tên điều hướng" field
+    Then Required message "Xin vui lòng nhập mã điều hướng" displayed under "Mã điều hướng" field
+    Then Required message "Xin vui lòng nhập link" displayed under "Link" field
+    Then Required message "Xin vui lòng nhập số thứ tự" displayed under "Số thứ tự" field
 
-DH-07 Verify when Create menu unsuccessfully when leaving the "Số thứ tự" field
-  [Tags]                @smoketest               @regression
-  When Go to page create data
-  When Enter "test name" in "Tên điều hướng" with "_RANDOM_"
-  When Enter "word" in "Mã điều hướng" with "_@Tên điều hướng@_"
-  When Enter "word" in "Link" with "/_RANDOM_"
-  When Click switch "Kích hoạt" to be activated
-  When Enter "word" in "Biểu tượng" with "las la-folder-minus"
-  When Click tree select "Điều hướng cha" with "SUPERADMIN"
-  When Click assign list "Order Side, Farmer Side"
-  And Click "Lưu lại" button
-  Then Required message "Số thứ tự" displayed under "Xin vui lòng nhập số thứ tự" field
+DH_06 Verify that CAN NOT create a new code data by leaving a blank field in "Tên điều hướng"
+    [Tags]                                                                                        Create                                       BlankField
+    Go to page create data "Phân quyền điều hướng" with "/navigation"
+    When Enter "word" in "Mã điều hướng" with "_RANDOM_"
+    When Enter "word" in "Link" with "/_@Mã điều hướng@_"
+    When Enter "number" in "Số thứ tự" with "_RANDOM_"
+    When Enter "text" in "Biểu tượng" with "las la-folder-minus"
+    When Click tree select "Điều hướng cha" with "DASHBOARD"
+    When Enter "text" in "Tham số truy vấn" with "_RANDOM_"
+    When Click switch "Kích hoạt" to change button status
+    When Click assign list "Order Side, Farmer Side"
+    When Click "Lưu lại" button
+    Then Required message "Xin vui lòng nhập tên điều hướng" displayed under "Tên điều hướng" field
 
-DH-08 Verify when creating menu unsuccessfully when inputting alphabetic characters into the "Số thứ tự" field
-  [Tags]                @smoketest               @regression
-  When Go to page create data
-  When Enter "test name" in "Tên điều hướng" with "_RANDOM_"
-  When Enter "word" in "Mã điều hướng" with "_RANDOM_"
-  When Enter "word" in "Link" with "/_RANDOM_"
-  ${passed}    Run Keyword And Return Status
-               ...    Enter "word" in "Số thứ tự" with "_RANDOM_"
-  IF    '${passed}' == 'True'
-      Then Required message "Số thứ tự" displayed under "Xin vui lòng nhập số thứ tự" field
-  ELSE
-      When Click switch "Kích hoạt" to be activated
-      When Enter "word" in "Biểu tượng" with "las la-folder-minus"
-      When Click tree select "Điều hướng cha" with "SUPERADMIN"
-      When Click assign list "Order Side, Farmer Side"
-      When Click "Lưu lại" button
-      Then Required message "Số thứ tự" displayed under "Xin vui lòng nhập số thứ tự" field
-  END
+DH_07 Verify that CAN NOT create a new code data by leaving a blank field in "Mã điều hướng"
+    [Tags]                                                                                        Create                                       BlankField
+    Go to page create data "Phân quyền điều hướng" with "/navigation"
+    When Enter "test name" in "Tên điều hướng" with "_RANDOM_"
+    When Enter "word" in "Link" with "/_@Mã điều hướng@_"
+    When Enter "number" in "Số thứ tự" with "_RANDOM_"
+    When Enter "text" in "Biểu tượng" with "las la-folder-minus"
+    When Click tree select "Điều hướng cha" with "DASHBOARD"
+    When Enter "text" in "Tham số truy vấn" with "_RANDOM_"
+    When Click switch "Kích hoạt" to change button status
+    When Click assign list "Order Side, Farmer Side"
+    When Click "Lưu lại" button
+    Then Required message "Xin vui lòng nhập mã điều hướng" displayed under "Mã điều hướng" field
 
-DH-10 Verify when create menu unsuccessfully when leaving "Mã điều hướng" field
-  [Tags]                @smoketest               @regression
-  When Go to page create data
-  When Enter "test name" in "Tên điều hướng" with "_RANDOM_"
-  When Enter "word" in "Link" with "/_RANDOM_"
-  When Enter "number" in "Số thứ tự" with "_RANDOM_"
-  When Click switch "Kích hoạt" to be activated
-  When Enter "word" in "Biểu tượng" with "las la-folder-minus"
-  When Click tree select "Điều hướng cha" with "SUPERADMIN"
-  When Click assign list "Order Side, Farmer Side"
-  And Click "Lưu lại" button
-  Then Required message "Mã điều hướng" displayed under "Xin vui lòng nhập mã điều hướng" field
+DH_08 Verify that CAN NOT create a new code data by leaving a blank field in "Link"
+    [Tags]                                                                                        Create                                       BlankField
+    Go to page create data "Phân quyền điều hướng" with "/navigation"
+    When Enter "test name" in "Tên điều hướng" with "_RANDOM_"
+    When Enter "word" in "Mã điều hướng" with "_RANDOM_"
+    When Enter "number" in "Số thứ tự" with "_RANDOM_"
+    When Enter "text" in "Biểu tượng" with "las la-folder-minus"
+    When Click tree select "Điều hướng cha" with "DASHBOARD"
+    When Enter "text" in "Tham số truy vấn" with "_RANDOM_"
+    When Click switch "Kích hoạt" to change button status
+    When Click assign list "Order Side, Farmer Side"
+    When Click "Lưu lại" button
+    Then Required message "Xin vui lòng nhập link" displayed under "Link" field
 
-DH-11 Verify when creating menu unsuccessfully when inputting existing data into "Mã điều hướng" field
-  [Tags]                @smoketest               @regression
-  When Background Happy paths
-  When Click "Tạo mới" button
-  When Enter "test name" in "Tên điều hướng" with "_@Tên điều hướng@_"
-  When Enter "word" in "Mã điều hướng" with "_@Mã điều hướng@_"
-  When Enter "word" in "Link" with "/_RANDOM_"
-  When Enter "number" in "Số thứ tự" with "_RANDOM_"
-  When Click switch "Kích hoạt" to be activated
-  When Enter "word" in "Biểu tượng" with "las la-folder-minus"
-  When Click tree select "Điều hướng cha" with "SUPERADMIN"
-  When Click assign list "Order Side, Farmer Side"
-  When Click "Lưu lại" button
-  Then User look message "Mã: _@Mã điều hướng@_ đã tồn tại" popup
-  When Click on the previously created "Tên điều hướng" tree to delete
+DH_09 Verify that CAN NOT create a new code data by leaving a blank field in "Số thứ tự"
+    [Tags]                                                                                        Create                                       BlankField
+    Go to page create data "Phân quyền điều hướng" with "/navigation"
+    When Enter "test name" in "Tên điều hướng" with "_RANDOM_"
+    When Enter "word" in "Mã điều hướng" with "_RANDOM_"
+    When Enter "word" in "Link" with "/_@Mã điều hướng@_"
+    When Enter "text" in "Biểu tượng" with "las la-folder-minus"
+    When Click tree select "Điều hướng cha" with "DASHBOARD"
+    When Enter "text" in "Tham số truy vấn" with "_RANDOM_"
+    When Click switch "Kích hoạt" to change button status
+    When Click assign list "Order Side, Farmer Side"
+    When Click "Lưu lại" button
+    Then Required message "Xin vui lòng nhập số thứ tự" displayed under "Số thứ tự" field
 
-DH_12 Verify when creating menu unsuccessfully when clicking Notification of Content Check Management then clicking on Tạo mới button
-  [Tags]                @smoketest               @regression
-  When Background Happy paths
-  When Click on the previously created "Tên điều hướng" tree to edit
-  When Click "Tạo mới" button
-  And Click "Lưu lại" button
-  Then Required message "Tên điều hướng" displayed under "Xin vui lòng nhập tên điều hướng" field
-  Then Required message "Mã điều hướng" displayed under "Xin vui lòng nhập mã điều hướng" field
-  Then Required message "Link" displayed under "Xin vui lòng nhập link" field
-  Then Required message "Số thứ tự" displayed under "Xin vui lòng nhập số thứ tự" field
-  When Click on the previously created "Tên điều hướng" tree to delete
+### Verify the create data function when enter the invalid data  ###
+# DH_10 Verify that CAN NOT create a new code by entering invalid data in "Tên điều hướng"
+#     [Tags]                                                                                        Create                                       Invalid
+#     ${Code1}=                                                                                     Create a test data 
+#     When Click "Tạo mới" button
+#     When Enter "test name" in "Tên điều hướng" with "_@Tên điều hướng@_"
+#     When Enter "word" in "Mã điều hướng" with "_RANDOM_"
+#     When Enter "word" in "Link" with "/_@Mã điều hướng@_"
+#     When Enter "number" in "Số thứ tự" with "_RANDOM_"
+#     When Enter "text" in "Biểu tượng" with "las la-folder-minus"
+#     When Click tree select "Điều hướng cha" with "DASHBOARD"
+#     When Enter "text" in "Tham số truy vấn" with "_RANDOM_"
+#     When Click switch "Kích hoạt" to change button status
+#     When Click assign list "Order Side, Farmer Side"
+#     When Click "Lưu lại" button
+#     Then User look message "Tên điều hướng đã tồn tại" popup
+#     When Click on the "${Code1}" tree to delete
 
-DH_13 Verify when editing unsuccessfully when selecting "Điều hướng cha" same name as "Tên điều hướng" field
-  [Tags]                @smoketest               @regression
-  When Background Happy paths
-  When Click on the previously created "Tên điều hướng" tree to edit
-  When Enter "word" in "Mã điều hướng" with "_RANDOM_"
-  When Click tree select "Điều hướng cha" with "_@Tên điều hướng@_"
-  And Click "Lưu lại" button
-  Then User look message "Không được chọn điều hướng cha là điều hướng con của điều hướng hiện tại" popup
-  When Click on the previously created "Tên điều hướng" tree to delete
+DH_11 Verify that CAN NOT create a code data by enter the invalid data in "Mã điều hướng"
+    [Tags]                                                                                        Create                                       Invalid
+    ${Code1}=                                                                                     Create a test data 
+    When Click "Tạo mới" button
+    When Enter "test name" in "Tên điều hướng" with "_RANDOM_"
+    When Enter "word" in "Mã điều hướng" with "_@Mã điều hướng@_"
+    When Enter "word" in "Link" with "/_RANDOM_"
+    When Enter "number" in "Số thứ tự" with "_RANDOM_"
+    When Enter "text" in "Biểu tượng" with "las la-folder-minus"
+    When Click tree select "Điều hướng cha" with "DASHBOARD"
+    When Enter "text" in "Tham số truy vấn" with "_RANDOM_"
+    When Click switch "Kích hoạt" to change button status
+    When Click assign list "Order Side, Farmer Side"
+    When Click "Lưu lại" button
+    Then User look message "Mã: _@Mã điều hướng@_ đã tồn tại" popup
+    When Click on the "${Code1}" tree to delete
 
-DH_14 Verify when navigation unsuccessfully when editing navigation
-  [Tags]                @smoketest               @regression
-  When Background Happy paths
-  When Click on the previously created "Tên điều hướng" tree to edit
-  When Enter "test name" in "Tên điều hướng" with ""
-  When Enter "word" in "Mã điều hướng" with ""
-  When Enter "word" in "Link" with ""
-  When Enter "number" in "Số thứ tự" with ""
-  When Click "Lưu lại" button
-  Then Required message "Tên điều hướng" displayed under "Xin vui lòng nhập tên điều hướng" field
-  Then Required message "Mã điều hướng" displayed under "Xin vui lòng nhập mã điều hướng" field
-  Then Required message "Link" displayed under "Xin vui lòng nhập link" field
-  Then Required message "Số thứ tự" displayed under "Xin vui lòng nhập số thứ tự" field
-  When Click on the previously created "Tên điều hướng" tree to delete
+# DH_12 Verify that CAN NOT create a code data by enter the invalid data in "Link"
+#     [Tags]                                                                                        Create                                       Invalid
+#     ${Code1}=                                                                                     Create a test data 
+#     When Click "Tạo mới" button
+#     When Enter "test name" in "Tên điều hướng" with "_RANDOM_"
+#     When Enter "word" in "Mã điều hướng" with "_RANDOM_"
+#     When Enter "word" in "Link" with "/_@Link@_"
+#     When Enter "number" in "Số thứ tự" with "_RANDOM_"
+#     When Enter "text" in "Biểu tượng" with "las la-folder-minus"
+#     When Click tree select "Điều hướng cha" with "DASHBOARD"
+#     When Enter "text" in "Tham số truy vấn" with "_RANDOM_"
+#     When Click switch "Kích hoạt" to change button status
+#     When Click assign list "Order Side, Farmer Side"
+#     When Click "Lưu lại" button
+#     Then User look message "Link đã tồn tại" popup
+#     When Click on the "${Code1}" tree to delete
+
+# DH_13 Verify that CAN NOT create a code data by enter the invalid data in "Số thứ tự"
+#     [Tags]                                                                                        Create                                       Invalid
+#     ${Code1}=                                                                                     Create a test data 
+#     When Click "Tạo mới" button
+#     When Enter "test name" in "Tên điều hướng" with "_RANDOM_"
+#     When Enter "word" in "Mã điều hướng" with "_RANDOM_"
+#     When Enter "word" in "Link" with "/_@Link@_"
+#     When Enter "number" in "Số thứ tự" with "_@Số thứ tự@_"
+#     When Enter "text" in "Biểu tượng" with "las la-folder-minus"
+#     When Click tree select "Điều hướng cha" with "DASHBOARD"
+#     When Enter "text" in "Tham số truy vấn" with "_RANDOM_"
+#     When Click switch "Kích hoạt" to change button status
+#     When Click assign list "Order Side, Farmer Side"
+#     When Click "Lưu lại" button
+#     Then User look message "Số thứ tự đã được sử dụng" popup
+#     When Click on the "${Code1}" tree to delete
+
+### Verify the funtion of changing data information ###
+DH_14 Verify that CAN change the code's information in "Tên điều hướng" field
+    [Tags]                                                                                        ChangeInfo
+    Create a test data
+    When Click on the "_@Tên điều hướng@_" tree to edit
+    When Enter "test name" in "Tên điều hướng" with "_RANDOM_"
+    When Click "Lưu lại" button
+    Then User look message "Success" popup
+    Then "_@Tên điều hướng@_" should be visible in the tree line
+    When Click on the "_@Tên điều hướng@_" tree to delete
+
+DH_15 Verify that CAN change the code's information in "Mã điều hướng" field
+    [Tags]                                                                                        ChangeInfo
+    Create a test data
+    When Click on the "_@Tên điều hướng@_" tree to edit
+    When Enter "word" in "Mã điều hướng" with "_RANDOM_"
+    When Click "Lưu lại" button
+    Then User look message "Success" popup
+    When Click on the "_@Tên điều hướng@_" tree to edit
+    Then Data's information in "Mã điều hướng" should be equal "_@Mã điều hướng@_"
+    When Click on the "_@Tên điều hướng@_" tree to delete
+
+DH_16 Verify that CAN change the code's information in "Link" field
+    [Tags]                                                                                        ChangeInfo
+    Create a test data
+    When Click on the "_@Tên điều hướng@_" tree to edit
+    When Enter "word" in "Link" with "/_@Mã điều hướng@_"
+    When Click "Lưu lại" button
+    Then User look message "Success" popup
+    When Click on the "_@Tên điều hướng@_" tree to edit
+    Then Data's information in "Link" should be equal "_@Link@_"
+    When Click on the "_@Tên điều hướng@_" tree to delete
+
+DH_17 Verify that CAN change the code's information in "Số thứ tự" field
+    [Tags]                                                                                        ChangeInfo
+    Create a test data
+    When Click on the "_@Tên điều hướng@_" tree to edit
+    When Enter "number" in "Số thứ tự" with "_RANDOM_"
+    When Click "Lưu lại" button
+    Then User look message "Success" popup
+    When Click on the "_@Tên điều hướng@_" tree to edit
+    Then Data's information in "Số thứ tự" should be equal "_@Số thứ tự@_"
+    When Click on the "_@Tên điều hướng@_" tree to delete
+
+DH_18 Verify that CAN change the code's information in "Biểu tượng" field
+    [Tags]                                                                                        ChangeInfo
+    Create a test data
+    When Click on the "_@Tên điều hướng@_" tree to edit
+    When Enter "text" in "Biểu tượng" with "las la-blind"
+    When Click "Lưu lại" button
+    Then User look message "Success" popup
+    When Click on the "_@Tên điều hướng@_" tree to edit
+    Then Data's information in "Biểu tượng" should be equal "_@Biểu tượng@_"
+    When Click on the "_@Tên điều hướng@_" tree to delete
+
+DH_19 Verify that CAN change the code's information in "Điều hướng cha" field
+    [Tags]                                                                                        ChangeInfo
+    Create a test data
+    When Click on the "_@Tên điều hướng@_" tree to edit
+    When Click tree select "Điều hướng cha" with "QUẢN LÝ DANH MỤC"
+    When Click "Lưu lại" button
+    Then User look message "Success" popup
+    When Click on the "_@Tên điều hướng@_" tree to edit
+    Then Data's information in "Điều hướng cha" should be equal "_@Điều hướng cha@_"
+    When Click on the "_@Tên điều hướng@_" tree to delete
+DH_20 Verify that CAN change the code's information in "Tham số truy vấn" field
+    [Tags]                                                                                        ChangeInfo
+    Create a test data
+    When Click on the "_@Tên điều hướng@_" tree to edit
+    When Enter "text" in "Tham số truy vấn" with "_RANDOM_"
+    When Click "Lưu lại" button
+    Then User look message "Success" popup
+    When Click on the "_@Tên điều hướng@_" tree to edit
+    Then Data's information in "Tham số truy vấn" should be equal "_@Tham số truy vấn@_"
+    When Click on the "_@Tên điều hướng@_" tree to delete
+
+DH_21 Verify that CAN change the code's information in "Kích hoạt" field
+    [Tags]                                                                                        ChangeInfo
+    Create a test data
+    When Click on the "_@Tên điều hướng@_" tree to edit
+    When Click switch "Kích hoạt" to change button status
+    When Click "Lưu lại" button
+    Then User look message "Success" popup
+    When Click on the "_@Tên điều hướng@_" tree to edit
+    Then The status of "Kích hoạt" switch button should not be activated
+    When Click on the "_@Tên điều hướng@_" tree to delete
+
+DH_22 Verify that CAN change the code's information in "Gán nhóm" field
+    [Tags]                                                                                        ChangeInfo
+    Create a test data
+    When Click on the "_@Tên điều hướng@_" tree to edit
+    When Click unassign list "Farmer Side"
+    When Click "Lưu lại" button
+    Then User look message "Success" popup
+    When Click on the "_@Tên điều hướng@_" tree to edit
+    Then The assign list in "Nhóm đã chọn" should not contain "Famer Side"
+    When Click on the "_@Tên điều hướng@_" tree to delete
+
+# DH_23 Verify that CAN NOT change the code information by entering the existed "Tên điều hướng"
+#     [Tags]                                                                                        ChangeInfo                                Invalid
+#     ${Code1}=                                                                                     Create a test data
+#     Create a test data
+#     When Click on the "${Code1}" tree to edit
+#     When Enter "test name" in "Tên điều hướng" with "_@Tên điều hướng@_"
+#     When Click "Lưu lại" button
+#     Then User look message "Tên điều hướng đã tồn tại" popup
+#     When Click on the "_@Tên điều hướng@_" tree to delete
+#     When Click on the "${Code1}" tree to delete
+
+DH_24 Verify that CAN NOT change the code information by entering the existed "Mã điều hướng"
+    [Tags]                                                                                        ChangeInfo                                Invalid
+    ${Code1}=                                                                                     Create a test data 
+    Create a test data
+    When Click on the "${Code1}" tree to edit
+    When Enter "word" in "Mã điều hướng" with "_@Mã điều hướng@_"
+    When Click "Lưu lại" button
+    Then User look message "Mã: _@Mã điều hướng@_ đã tồn tại" popup
+    When Click on the "_@Tên điều hướng@_" tree to delete
+    When Click on the "${Code1}" tree to delete
+
+# DH_25 Verify that CAN NOT change the code information by entering the existed "Link"
+#     [Tags]                                                                                        ChangeInfo                                Invalid
+#     ${Code1}=                                                                                     Create a test data 
+#     Create a test data
+#     When Click on the "${Code1}" tree to edit
+#     When Enter "word" in "Link" with "_@Link@_"
+#     When Click "Lưu lại" button
+#     Then User look message "Link đã tồn tại" popup
+#     When Click on the "_@Tên điều hướng@_" tree to delete
+#     When Click on the "${Code1}" tree to delete
+
+# DH_26 Verify that CAN NOT change the code information by entering the existed "Số thứ tự"
+#     [Tags]                                                                                        ChangeInfo                                Invalid
+#     ${Code1}=                                                                                     Create a test data 
+#     Create a test data
+#     When Click on the "${Code1}" tree to edit
+#     When Enter "number" in "Thứ tự" with "_@Thứ tự@_"
+#     When Click "Lưu lại" button
+#     Then User look message "Thứ tự đã tồn tại" popup
+#     When Click on the "_@Tên điều hướng@_" tree to delete
+#     When Click on the "${Code1}" tree to delete
+
+### Verify the search function ###
+DH_27 Verify the search function when enter the existed name
+    [Tags]                                                                                        Search                                     Smoketest
+    Create a test data
+    When Enter "test name" in placeholder "Nhập để tìm kiếm" with "_@Tên điều hướng@_"
+    Then "_@Tên điều hướng@_" should be visible in the tree line
+    When Click on the "_@Tên điều hướng@_" tree to delete
+
+DH_28 Verify the search function when enter the name was not existed
+    [Tags]                                                                                        Search                                     Smoketest
+    Create a test data
+    When Enter "text" in placeholder "Nhập để tìm kiếm" with "_RANDOM_"
+    Then "_@Tên điều hướng@_" should not be visible in the tree line
+    When Enter "test name" in placeholder "Nhập để tìm kiếm" with ""
+    When Click tree select "DASHBOARD" to show data
+    Then "_@Tên điều hướng@_" should be visible in the tree line
+    When Click on the "_@Tên điều hướng@_" tree to delete
+
+### Verify the delete data function ###
+DH_29 Verify the delete data function
+    [Tags]                                                                                        Delete                                     Smoketest
+    Create a test data
+    When Click on the "_@Tên điều hướng@_" tree to delete
+    Then User look message "Success" popup
+    Then "_@Tên điều hướng@_" should not be visible in the tree line
+
+
+DH_30 Verify the cancel action button when delete data
+    [Tags]                                                                                        Delete
+    Create a test data
+    When Click on the "_@Tên điều hướng@_" tree to delete with cancel
+    Then "_@Tên điều hướng@_" should be visible in the tree line
+    When Click on the "_@Tên điều hướng@_" tree to delete
+
 
 *** Keywords ***
-Go to page create data
-  When Login to admin
-  When Click "SUPERADMIN" menu
-  When Click "Phân quyền điều hướng" sub menu to "/navigation"
-  When Click "Tạo mới" button
+Go to "Điều hướng" page
+    Login to admin
+    Click "SUPERADMIN" menu
+    Click "Phân quyền điều hướng" sub menu to "/navigation"
 
-Background Happy paths
-  When Go to page create data
-  When Enter "test name" in "Tên điều hướng" with "_RANDOM_"
-  When Enter "word" in "Mã điều hướng" with "_RANDOM_"
-  When Enter "word" in "Link" with "/_RANDOM_"
-  When Enter "number" in "Số thứ tự" with "_RANDOM_"
-  When Click switch "Kích hoạt" to be activated
-  When Enter "word" in "Biểu tượng" with "las la-folder-minus"
-  When Click tree select "Điều hướng cha" with "SUPERADMIN"
-  When Click assign list "Order Side, Farmer Side"
-  When Click "Lưu lại" button
-  Then User look message "Success" popup
+Go to page create data "${name}" with "${url}"
+  Login to admin
+  Click "SUPERADMIN" menu
+  Click "${name}" sub menu to "${url}"
+  Click "Tạo mới" button
+
+Create a test data
+  ${condition}=             Run Keyword And Return Status                 Confirm locating exactly in "Phân quyền điều hướng" page
+  IF    '${condition}' == 'True'
+    Click "Tạo mới" button
+  ELSE
+    Go to "Điều hướng" page
+    Click "Tạo mới" button
+  END
+  Enter "test name" in "Tên điều hướng" with "_RANDOM_"
+    ${text}=                Check Text                                    _@Tên điều hướng@_
+    ${name}=                Set Variable                                  ${text}
+    [Return]                ${name} 
+  Enter "word" in "Mã điều hướng" with "_RANDOM_"
+  Enter "word" in "Link" with "/_@Mã điều hướng@_"
+  Enter "number" in "Số thứ tự" with "_RANDOM_"
+  Enter "text" in "Biểu tượng" with "las la-folder-minus"
+  Click tree select "Điều hướng cha" with "DASHBOARD"
+  Enter "text" in "Tham số truy vấn" with "_RANDOM_"
+  Click switch "Kích hoạt" to change button status
+  Click assign list "Order Side, Farmer Side"
+  Click "Lưu lại" button
+  User look message "Success" popup
+
+
